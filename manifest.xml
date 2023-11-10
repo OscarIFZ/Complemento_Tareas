@@ -5,15 +5,16 @@
   xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>05c2e1c9-3e1d-406e-9a91-e9ac64854143</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>Contoso</ProviderName>
-  <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Contoso Task Pane Add-in"/>
-  <Description DefaultValue="A template to get started."/>
-  <IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
-  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
-  <SupportUrl DefaultValue="https://www.contoso.com/help"/>
+  <ProviderName>AustranetGRC</ProviderName>
+  <DefaultLocale>es-CL</DefaultLocale>
+  <DisplayName DefaultValue="Seguimiento Austranet"/>
+  <Description DefaultValue="Crea una nueva tarea con su seguimiento respectivo."/>
+  <IconUrl DefaultValue="https://app-aus-evidence.azurewebsites.net/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://app-aus-evidence.azurewebsites.net/assets/icon-128.png"/>
+  <SupportUrl DefaultValue="https://www.austranet.com/index.php/contactanos/"/>
   <AppDomains>
-    <AppDomain>https://www.contoso.com</AppDomain>
+    <AppDomain>https://www.austranet.com</AppDomain>
+    <AppDomain>https://api-grc.austranet.com/api</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox" />
@@ -81,21 +82,21 @@
       </Hosts>
       <Resources>
         <bt:Images>
-          <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/icon-16.png"/>
-          <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/icon-32.png"/>
-          <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/icon-80.png"/>
+          <bt:Image id="Icon.16x16" DefaultValue="https://app-aus-evidence.azurewebsites.net/assets/icon-16.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://app-aus-evidence.azurewebsites.net/assets/icon-32.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://app-aus-evidence.azurewebsites.net/assets/icon-80.png"/>
         </bt:Images>
         <bt:Urls>
           <bt:Url id="Commands.Url" DefaultValue="https://localhost:3000/commands.html" />
           <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html" />
         </bt:Urls>
         <bt:ShortStrings>
-          <bt:String id="GroupLabel" DefaultValue="Contoso Add-in"/>
-          <bt:String id="TaskpaneButton.Label" DefaultValue="Show Taskpane"/>
+          <bt:String id="GroupLabel" DefaultValue="AustranetGRC"/>
+          <bt:String id="TaskpaneButton.Label" DefaultValue="Crear Seguimiento"/>
         </bt:ShortStrings>
         <bt:LongStrings>
-          <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a task pane."/>
-          <bt:String id="ActionButton.Tooltip" DefaultValue="Perform an action when clicked."/>
+          <bt:String id="TaskpaneButton.Tooltip" DefaultValue="AustranetGRC"/>
+          <bt:String id="ActionButton.Tooltip" DefaultValue="Click para crear una nueva tarea corta."/>
         </bt:LongStrings>
       </Resources>
     </VersionOverrides>

@@ -1,46 +1,75 @@
+/* eslint-disable no-undef */
 import * as React from "react";
-import Header from "./Header";
-import HeroList, { HeroListItem } from "./HeroList";
-import TextInsertion from "./TextInsertion";
-import { makeStyles } from "@fluentui/react-components";
-import { Ribbon24Regular, LockOpen24Regular, DesignIdeas24Regular } from "@fluentui/react-icons";
+import { logout, useAuth } from "../providers/authProvider";
+import { Header } from "./componentes/Header";
+import Progress from "./Vistas/Progress";
+import Login from "./Vistas/Login";
+import Start from "./Vistas/Start";
+import CreateSeguimiento from "..";
+/* global require */
 
-interface AppProps {
+export interface AppProps {
   title: string;
+  isOfficeInitialized: boolean;
 }
 
-const useStyles = makeStyles({
-  root: {
-    minHeight: "100vh",
-  },
-});
+export interface AppState {}
 
-const App = (props: AppProps) => {
-  const styles = useStyles();
-  // The list items are static and won't change at runtime,
-  // so this should be an ordinary const, not a part of state.
-  const listItems: HeroListItem[] = [
-    {
-      icon: <Ribbon24Regular />,
-      primaryText: "Achieve more with Office integration",
-    },
-    {
-      icon: <LockOpen24Regular />,
-      primaryText: "Unlock features and functionality",
-    },
-    {
-      icon: <DesignIdeas24Regular />,
-      primaryText: "Create and visualize like a pro",
-    },
-  ];
+const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
+  const [logged] = useAuth();
+  const [titulo, setTitulo] = React.useState<string>("Crear Seguimiento");
+  const [isLogin, setIsLogin] = React.useState<boolean>(false);
+  const [showCreateSeguimiento, setShowCreateSeguimiento] = React.useState<boolean>(true);
+  const handleCloseCreateSeguimiento = () => {
+    setTitulo("Crear Seguimiento");
+    setShowCreateSeguimiento(false);
+    // Cierra la vista CreateSeguimiento
+  };
+
+  if (!props.isOfficeInitialized) {
+    return (
+      <Progress
+        title={props.title}
+        logo={require("./../../../assets/logo-filled.png")}
+        message="Please sideload your addin to see app body."
+      />
+    );
+  }
 
   return (
-    <div className={styles.root}>
-      <Header logo="assets/logo-filled.png" title={props.title} message="Welcome" />
-      <HeroList message="Discover what this add-in can do for you today!" items={listItems} />
-      <TextInsertion />
-    </div>
+    <>
+      {!logged && !isLogin && (
+        <>
+          <Start
+            onClickIniciar={() => setIsLogin(true)}
+            onClickCrear={() => {
+              Office.context.ui.openBrowserWindow("https://www.austranet.com/index.php/austranetgrc/");
+            }}
+          />
+        </>
+      )}
+      {!logged && isLogin && (
+        <>
+          <Login />
+        </>
+      )}
+
+      {logged && (
+        <>
+          <Header
+            title={titulo}
+            onBack={undefined}
+            onLogout={() => {
+              logout();
+            }}
+            /*onTask={() => {
+              setShowCreateSeguimiento(true);
+            }}*/
+          />
+          {showCreateSeguimiento === true && <CreateSeguimiento onClose={handleCloseCreateSeguimiento} />}
+        </>
+      )}
+    </>
   );
 };
-
 export default App;
