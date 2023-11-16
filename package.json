@@ -7,7 +7,7 @@
   },
   "license": "MIT",
   "config": {
-    "app_to_debug": "excel",
+    "app_to_debug": "outlook",
     "app_type_to_debug": "desktop",
     "dev_server_port": 3000
   },
@@ -35,13 +35,20 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fluentui/react-components": "^9.39.0",
     "@fluentui/react-icons": "^2.0.214",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/material": "^5.14.17",
+    "@mui/x-date-pickers": "^6.18.1",
     "core-js": "^3.9.1",
+    "dayjs": "^1.11.10",
     "es6-promise": "^4.2.8",
     "office-js": "^0.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {

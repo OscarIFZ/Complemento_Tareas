@@ -1,0 +1,15 @@
+export const TcTareaCortaModel = {
+  empresaId: "",
+  gerenciaId: 1,
+  areaId: undefined,
+  ejecutorId: "",
+  visadorId: undefined,
+  tcPrioridadId: 1,
+  perfilEnvioCorreoId: 1,
+  titulo: "",
+  descripcion: "",
+  fechaVencimiento: new Date(),
+  expira: false,
+  visacion: false,
+  evidencia: false,
+};

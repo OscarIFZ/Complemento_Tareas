@@ -2,7 +2,7 @@
 import * as React from "react";
 import { logout, useAuth } from "../providers/authProvider";
 import { Header } from "./componentes/Header";
-import Progress from "./Vistas/Progress";
+import Progress from "./Progress";
 import Login from "./Vistas/Login";
 import Start from "./Vistas/Start";
 import CreateSeguimiento from "..";
