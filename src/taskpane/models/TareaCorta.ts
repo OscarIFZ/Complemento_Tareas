@@ -1,15 +1,14 @@
-export const TcTareaCortaModel = {
-  empresaId: "",
-  gerenciaId: 1,
-  areaId: undefined,
-  ejecutorId: "",
-  visadorId: undefined,
-  tcPrioridadId: 1,
-  perfilEnvioCorreoId: 1,
-  titulo: "",
-  descripcion: "",
-  fechaVencimiento: new Date(),
-  expira: false,
-  visacion: false,
-  evidencia: false,
-};
+export interface TcTareaCortaModel {
+  empresaId: string;
+  gerenciaId: number;
+  areaId: number;
+  ejecutorId: string;
+  visadorId: string;
+  tcPrioridadId: number;
+  perfilEnvioCorreoId: number;
+  titulo: string;
+  descripcion: string;
+  fechaVencimiento: Date;
+  expira: boolean;
+  visacion: boolean;
+}

@@ -13,13 +13,10 @@ import {
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import toast from "react-hot-toast";
-
 import { login } from "../../../providers/authProvider";
 import { UsuarioApi } from "../../../services";
-
+import { displayDialogAsync } from "../../utils/displayDialogAsync";
 import msLogo from "./icons/ms.png";
-import { displayDialogAsync } from "../../../utils/displayDialogAsync";
-
 const Login: React.FunctionComponent<{}> = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [usuario, setUsuario] = React.useState({

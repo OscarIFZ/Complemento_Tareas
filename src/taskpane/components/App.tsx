@@ -5,7 +5,8 @@ import { Header } from "./componentes/Header";
 import Progress from "./Progress";
 import Login from "./Vistas/Login";
 import Start from "./Vistas/Start";
-import CreateSeguimiento from "..";
+import CreateTareaCorta from "./Vistas/CreateTareaCorta";
+import GenerarPdf from "./Vistas/GenerarPdf";
 /* global require */
 
 export interface AppProps {
@@ -17,15 +18,10 @@ export interface AppState {}
 
 const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
   const [logged] = useAuth();
-  const [titulo, setTitulo] = React.useState<string>("Crear Seguimiento");
+  const [titulo, setTitulo] = React.useState<string>("Crear Tarea Corta");
   const [isLogin, setIsLogin] = React.useState<boolean>(false);
-  const [showCreateSeguimiento, setShowCreateSeguimiento] = React.useState<boolean>(true);
-  const handleCloseCreateSeguimiento = () => {
-    setTitulo("Crear Seguimiento");
-    setShowCreateSeguimiento(false);
-    // Cierra la vista CreateSeguimiento
-  };
-
+  const [evidencia, setEvidencia] = React.useState<File>(undefined);
+  const [visualizar, setVisualizar] = React.useState<boolean>(true);
   if (!props.isOfficeInitialized) {
     return (
       <Progress
@@ -56,17 +52,26 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
       {logged && (
         <>
-          <Header
-            title={titulo}
-            onBack={undefined}
-            onLogout={() => {
-              logout();
-            }}
-            /*onTask={() => {
-              setShowCreateSeguimiento(true);
-            }}*/
-          />
-          {showCreateSeguimiento === true && <CreateSeguimiento onClose={handleCloseCreateSeguimiento} />}
+          {!evidencia && visualizar && (
+            <GenerarPdf
+              onPdfGenerado={(f) => {
+                setEvidencia(f), setVisualizar(false);
+              }}
+            />
+          )}
+
+          {evidencia && !visualizar && (
+            <>
+              <Header
+                title={titulo}
+                onBack={undefined}
+                onLogout={() => {
+                  logout();
+                }}
+              />
+              <CreateTareaCorta evidencia={evidencia} />
+            </>
+          )}
         </>
       )}
     </>
