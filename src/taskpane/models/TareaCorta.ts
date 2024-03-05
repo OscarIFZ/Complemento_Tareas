@@ -4,6 +4,7 @@ export interface TcTareaCortaModel {
   areaId: number;
   ejecutorId: string;
   visadorId: string;
+  evidencia: boolean;
   tcPrioridadId: number;
   perfilEnvioCorreoId: number;
   titulo: string;

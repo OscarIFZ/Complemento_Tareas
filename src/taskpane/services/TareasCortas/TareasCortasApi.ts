@@ -7,11 +7,14 @@ import { AreaEmpresa } from "../../models/AreaEmpresa";
 import { Usuario } from "../../models/Usuario";
 import { PerfilEnvioCorreo } from "../../models/PerfilEnvioCorreo";
 import { TcPrioridad } from "../../models/TcPrioridad";
+import { TcTareaCortaModel } from "../../models/TareaCorta";
+import fetch from "node-fetch";
 export default function getResponseError(error: any): string {
   if (!error?.response?.data?.errors) return "Error desconocido";
 
   return "Error desconocido";
 }
+const token = localStorage.getItem("accessToken");
 export const obtenerEmpresas = async (): Promise<ApiResponse<Empresa[]>> => {
   try {
     const url: string = `${URL_BASE}/Empresa`;
@@ -139,26 +142,38 @@ export const obtenerTcPrioridades = async (): Promise<ApiResponse<TcPrioridad[]>
   }
 };
 /**
- * POST method - Crear una nueva tarea corta
- * @param {TcTareaCortaModel} tareaCorta tarea corta
- * @return {Promise} Promesa de creación
- */
-export const crearTareaCorta = (tareaCorta, archivo) => {
-  return new Promise((resolve) => {
-    const url = `${URL_BASE}/TcTareaCorta`;
-    const formData = new FormData();
-    var jsonData = JSON.stringify(tareaCorta);
-    formData.append("file", archivo);
-    formData.append("jsonData", jsonData);
-    const isMultipart = true;
 
-    Base.post(url, formData, "true", isMultipart)
+ * POST method - Crear una nueva tarea corta
+
+ * @param {TcTareaCortaModel} tareaCorta tarea corta
+
+ * @param {File} archivo archivo
+
+ */
+
+export const crearTareaCorta = (tareaCorta: TcTareaCortaModel, archivo: File) => {
+  return new Promise((resolve) => {
+    const url: string = `${URL_BASE}/TcTareaCorta`;
+
+    const formData = new FormData();
+
+    const jsonData = JSON.stringify(tareaCorta);
+    formData.append("files", archivo);
+    formData.append("jsonData", jsonData);
+    Base.post(url, formData, token, true)
       .then((response) => {
-        resolve([response, undefined, undefined]);
+        if (Array.isArray(response)) {
+          const [data, error] = response;
+
+          if (data !== null) {
+            resolve([data, null]);
+          } else {
+            resolve([null, error]);
+          }
+        }
       })
       .catch((error) => {
-        const err = getResponseError(error);
-        resolve([undefined, err, error.response?.status]);
+        resolve([null, error]);
       });
   });
 };

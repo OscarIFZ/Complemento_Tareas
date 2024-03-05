@@ -48,7 +48,6 @@ const Login: React.FunctionComponent<{}> = () => {
     const displayAsync = async () => {
       var dialogRes = await display();
       var tknData: { status: string; result: { accessToken: string; idToken: string } } = JSON.parse(dialogRes);
-      console.log(tknData);
       if (tknData && tknData.status === "success") {
         const usuarioApi = new UsuarioApi();
         const [res, err] = await usuarioApi.loginUsuarioConMicrosoft(
@@ -64,6 +63,7 @@ const Login: React.FunctionComponent<{}> = () => {
           toast.error("Las credenciales del usuario son incorrectas");
         }
       } else {
+        console.log(tknData);
         toast.error("Error al iniciar sesión con Microsoft");
       }
     };

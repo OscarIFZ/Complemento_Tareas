@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 initializeIcons();
 
-let isOfficeInitialized = true;
+let isOfficeInitialized = false;
 
 const title = "AustranetGRC Seguimiento";
 
@@ -46,6 +46,7 @@ Office.onReady(() => {
     document.getElementById("container").innerHTML =
       "<p>AustranetGRC Seguimiento no es compatible con la versión actual de Outlook.</p>";
   } else {
+    console.log(isOfficeInitialized);
     render(App);
   }
 });

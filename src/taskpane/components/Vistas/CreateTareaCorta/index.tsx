@@ -26,7 +26,7 @@ import {
 import { saveAs } from "file-saver";
 import { ICreateTareaCortaProps } from "./ICreateTareaCortaProps";
 const CreateTareaCorta: React.FunctionComponent<ICreateTareaCortaProps> = (props: ICreateTareaCortaProps) => {
-  const [evidencia, setEvidencia] = React.useState<File>(props.evidencia);
+  const [evidenciaF, setEvidencia] = React.useState<File>(props.evidencia);
   const [empresas, setEmpresas] = useState([]);
   const [gerencias, setGerencias] = useState([]);
   const [prioridades, setPrioridades] = useState([]);
@@ -39,6 +39,7 @@ const CreateTareaCorta: React.FunctionComponent<ICreateTareaCortaProps> = (props
     ejecutorId: "",
     visadorId: undefined,
     tcPrioridadId: 1,
+    evidencia: true,
     perfilEnvioCorreoId: 1,
     titulo: "",
     descripcion: "",
@@ -108,6 +109,7 @@ const CreateTareaCorta: React.FunctionComponent<ICreateTareaCortaProps> = (props
       areaId: "",
       ejecutorId: "",
       visadorId: "",
+      evidencia: true,
       tcPrioridadId: 0,
       perfilEnvioCorreoId: 0,
       titulo: "",
@@ -124,10 +126,10 @@ const CreateTareaCorta: React.FunctionComponent<ICreateTareaCortaProps> = (props
   };
   const postearTarea = async () => {
     try {
-      console.log(evidencia);
-      await crearTareaCorta(tareaCorta, evidencia);
+      console.log(evidenciaF);
+      await crearTareaCorta(tareaCorta, evidenciaF);
       setAlertOpen(true);
-      console.log("Tarea corta creada con éxito");
+      setTimeout(handleAlertClose, 3000); // Cerrar el Alert después de 5 segundos (5000 milisegundos
       limpiarValores();
     } catch (error) {
       setAlertOpen(false);
@@ -271,7 +273,7 @@ const CreateTareaCorta: React.FunctionComponent<ICreateTareaCortaProps> = (props
           </Grid>
         </Grid>
         <Grid item xs={12} md={12} sx={{ marginBottom: "20px" }}>
-          {evidencia && (
+          {evidenciaF && (
             <Button
               variant="outlined"
               color="secondary"

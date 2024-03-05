@@ -5,7 +5,7 @@ import { PublicClientApplication } from "@azure/msal-browser";
   Office.onReady(() => {
     const msalInstance = new PublicClientApplication({
       auth: {
-        clientId: "d6a91baa-2f67-4a3d-91c9-0901ab45396e",
+        clientId: "03140028-3e83-4bbd-bd6d-7aab0ee2050f",
         authority: "https://login.microsoftonline.com/common",
         redirectUri: `${window.location.origin}/login/m-login.html`, // Must be registered as "spa" type
       },
