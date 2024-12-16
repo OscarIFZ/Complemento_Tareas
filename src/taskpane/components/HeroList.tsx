@@ -5,14 +5,14 @@ export interface HeroListItem {
   primaryText: string;
 }
 
-export interface HeroListProps {
+export interface HeroListProps extends React.HTMLAttributes<HTMLDivElement> {
   message: string;
   items: HeroListItem[];
 }
 
 export default class HeroList extends React.Component<HeroListProps> {
   render() {
-    const { children, items, message } = this.props;
+    const { children, items, message, ...divProps } = this.props;
 
     const listItems = items.map((item, index) => (
       <li className="ms-ListItem" key={index}>
@@ -21,7 +21,7 @@ export default class HeroList extends React.Component<HeroListProps> {
       </li>
     ));
     return (
-      <main className="ms-welcome__main">
+      <main className="ms-welcome__main" {...divProps}>
         <h2 className="ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20">{message}</h2>
         <ul className="ms-List ms-welcome__features ms-u-slideUpIn10">{listItems}</ul>
         {children}

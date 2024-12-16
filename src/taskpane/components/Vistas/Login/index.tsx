@@ -13,13 +13,10 @@ import {
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import toast from "react-hot-toast";
-
 import { login } from "../../../providers/authProvider";
 import { UsuarioApi } from "../../../services";
-
+import { displayDialogAsync } from "../../utils/displayDialogAsync";
 import msLogo from "./icons/ms.png";
-import { displayDialogAsync } from "../../../utils/displayDialogAsync";
-
 const Login: React.FunctionComponent<{}> = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [usuario, setUsuario] = React.useState({
@@ -51,7 +48,6 @@ const Login: React.FunctionComponent<{}> = () => {
     const displayAsync = async () => {
       var dialogRes = await display();
       var tknData: { status: string; result: { accessToken: string; idToken: string } } = JSON.parse(dialogRes);
-      console.log(tknData);
       if (tknData && tknData.status === "success") {
         const usuarioApi = new UsuarioApi();
         const [res, err] = await usuarioApi.loginUsuarioConMicrosoft(
@@ -67,6 +63,7 @@ const Login: React.FunctionComponent<{}> = () => {
           toast.error("Las credenciales del usuario son incorrectas");
         }
       } else {
+        console.log(tknData);
         toast.error("Error al iniciar sesión con Microsoft");
       }
     };

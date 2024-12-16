@@ -1,141 +1,59 @@
-import React, { useState } from "react";
-//import { DatePicker } from "@fluentui/react/lib/DatePicker"; // Importa el DatePicker de Fluent UI
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Dialog from '@mui/material/Dialog';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Dayjs } from 'dayjs';
+import App from "./components/App";
+import { createRoot } from "react-dom/client";
+import { initializeIcons } from "@fluentui/font-icons-mdl2";
+import { ThemeProvider } from "@fluentui/react";
+import * as React from "react";
+import { Toaster } from "react-hot-toast";
 
+/* global document, Office, module, require */
 
-const CreateSeguimiento = ( { onClose }) => {
-  const [personaACargo, setPersonaACargo] = useState("");
-  const [nombreSeguimiento, setNombreSeguimiento] = useState("");
-  const [proyecto, setProyecto] = useState(null);
-  const [startDate, setStartDate] = useState<Dayjs | null>(null);
-  const [open, setOpen] = React.useState(false);
+initializeIcons();
 
-  const handleAceptarClick = () => {
-    
-    // Realiza cualquier lógica necesaria antes de mostrar el pop-up
-    if (personaACargo && nombreSeguimiento && startDate && proyecto) {
-      // Ejemplo: Enviar datos al servidor
-      console.log("Mandar datos")
-      setOpen(true);
-      // Llama a la función onClose para cerrar la vista
-      
-    } else {
-      // Muestra un mensaje de error o realiza alguna acción cuando falta información
-      alert("Por favor, completa todos los campos antes de continuar.");
-    }
-    
-  };
-  const handleClose = () => {
-    setOpen(false);
-    onClose();
-  };
-  const handleChange = (event: SelectChangeEvent) => {
-    setProyecto(event.target.value);
-  }
- 
-  
+let isOfficeInitialized = false;
 
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <Box>
-      
-      <Box className="input-container" sx = {{
-        m : 1
-      }}>
-        <TextField name = "personaACargo"
-        value = {personaACargo}
-        onChange ={(e) => setPersonaACargo(e.target.value)}
-        label ="Ingrese la persona a cargo (correo)"
-        fullWidth
-        required
-        />
-        
-      </Box>
-      <Box className="input-container" sx = {{
-        m : 1
-      }}>
-        <FormControl fullWidth>
-          <InputLabel id="seleccion-de-proyecto-label">Proyecto</InputLabel> 
-          <Select
-            labelId = "seleccion-de-proyecto-label"
-            id = "seleccion-de-proyecto"
-            value ={proyecto}
-            label = "Proyecto"
-            onChange={handleChange}
-          >
-            {/*LLamar desde la API*/}
-            <MenuItem value={"DGCA"}>DGCA</MenuItem>
-            <MenuItem value={"AustranetGRC"}>AustranetGRC</MenuItem>
-            <MenuItem value={"IA"}>IA</MenuItem>
-          </Select>
-        </FormControl>
+const title = "AustranetGRC Seguimiento";
 
-        
-      </Box>
-      
-      <Box className="input-container" sx = {{
-        m : 1
-      }}>
-        <TextField
-                    name="NombreSeguimiento"
-                    value={nombreSeguimiento}
-                    onChange={(e) => setNombreSeguimiento(e.target.value)}
-                    variant="outlined"
-                    label="Ingrese Nombre de Tarea"
-                    fullWidth
-                    required
-                    
-        />
-      </Box>
-      
-      <Box className="input-container" sx = {{
-        m : 1
-      }}>        
-        <DatePicker label = "Fecha Limite"
-          value={startDate}
-          onChange={(date) => setStartDate(date)}
-        />
-      </Box>
-      <Box display = "flex" justifyContent="space-evenly">
-      <Button variant = "outlined" onClick = {handleAceptarClick}>
-        Aceptar
-      </Button>
-      <Button variant = "outlined" onClick = {handleClose}>
-        Cancelar
-      </Button>
-      </Box>
-      
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent>
-          <DialogContentText>
-            Seguimiento Creado!
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
-      
-    </Box>
-    </LocalizationProvider>
+const render = (Component) => {
+  const root = createRoot(document.getElementById("container"));
+  root.render(
+    <ThemeProvider>
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          success: {
+            style: {
+              background: "#22bb33",
+              color: "#ffffff",
+            },
+          },
+          error: {
+            style: {
+              background: "#bb2124",
+              color: "#ffffff",
+            },
+          },
+        }}
+      />
+      <Component title={title} isOfficeInitialized={isOfficeInitialized} />
+    </ThemeProvider>
   );
 };
 
-export default CreateSeguimiento;
+/* Render application after Office initializes */
+Office.onReady(() => {
+  isOfficeInitialized = true;
+  if (navigator.userAgent.indexOf("Trident") !== -1 || navigator.userAgent.indexOf("Edge") !== -1) {
+    document.getElementById("container").innerHTML =
+      "<p>AustranetGRC Seguimiento no es compatible con la versión actual de Outlook.</p>";
+  } else {
+    console.log(isOfficeInitialized);
+    render(App);
+  }
+});
+
+if ((module as any).hot) {
+  (module as any).hot.accept("./components/App", () => {
+    const NextApp = require("./components/App").default;
+    render(NextApp);
+  });
+}
